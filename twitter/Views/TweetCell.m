@@ -40,14 +40,15 @@
 
     // TODO: Send a POST request to the POST favorites/create endpoint
     
-    [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
-        if(error){
-            NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
-        }
-        else{
-            NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
-        }
-    }];
+    // UNCOMMENT LATER AND DEBUG
+//    [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+//        if(error){
+//            NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+//        }
+//        else{
+//            NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+//        }
+//    }];
     
 }
 

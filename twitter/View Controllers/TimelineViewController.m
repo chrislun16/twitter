@@ -30,6 +30,8 @@
     [self.activityIndicator startAnimating];
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
+
     
     // Get timeline
     [self loadData];
@@ -57,18 +59,9 @@
 // Hides the RefreshControl
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
     
-    // Create NSURL and NSURLRequest
-    
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                          delegate:nil
-                                                     delegateQueue:[NSOperationQueue mainQueue]];
-    session.configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-                                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                 
   // ... Use the new data to update the data source ...
-   tweet.
+    [self loadData];
                                                 
                                                 
  // Reload the tableView now that there is new data
@@ -77,9 +70,8 @@
 // Tell the refreshControl to stop spinning
                                                 [refreshControl endRefreshing];
                                                 
-                                            }];
     
-    [task resume];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -93,7 +85,6 @@
     
     Tweet *newTweet = self.tweets[indexPath.row];
     [cell setTweet:newTweet];
-    
     
     
     return cell;
