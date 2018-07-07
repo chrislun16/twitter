@@ -1,6 +1,6 @@
 # Project 4 - *Twitter*
 
-**Twittere** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
+**Twitter** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
 Time spent: **36.45** hours spent in total
 
