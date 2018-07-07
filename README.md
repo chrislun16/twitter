@@ -1,4 +1,4 @@
-# Project 4 - *Twittere*
+# Project 4 - *Twitter*
 
 **Twittere** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
