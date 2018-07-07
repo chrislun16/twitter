@@ -24,51 +24,163 @@
 }
 
 - (IBAction)didTapRetweet:(id)sender {
-    
+
+    if (self.retweetedButton.selected)
+    {
+        // TODO: Update the local tweet model
+        self.tweet.retweetCount -= 1;
+        self.tweet.retweeted = NO;
+        self.retweetedButton.selected = NO;
+        
+        // TODO: Update cell UI
+        
+        NSString *retweettIntToText = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
+        self.retweetCount.text = retweettIntToText;
+        
+        //TODO: Send a POST request to the POST favorites/create endpoint
+        
+        [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+            if(error){
+                NSLog(@"Error unretweeting tweet: %@", error.localizedDescription);
+            }
+            else{
+                NSLog(@"Successfully unretweeted the following Tweet: %@", tweet.text);
+            }
+        }];
+
+        
+    }
+    else
+    {
     // TODO: Update the local tweet model
-    self.tweet.favoriteCount += 1;
+    self.tweet.retweetCount += 1;
     self.tweet.retweeted = YES;
+    self.retweetedButton.selected = YES;
 
     // TODO: Update cell UI
+        
+    NSString *retweettIntToText = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
+    self.retweetCount.text = retweettIntToText;
+
+        //TODO: Send a POST request to the POST favorites/create endpoint
+        
+        [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+            if(error){
+                NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
+            }
+            else{
+                NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
+            }
+        }];
+
+        
+    }
 
     
-     int *temp = self.retweetCount.text.intValue+1;
-     NSString *retweettIntToText = [NSString stringWithFormat:@"%d", temp];
-     self.retweetCount = retweettIntToText;
     
     
 
-    // TODO: Send a POST request to the POST favorites/create endpoint
-    
-    // UNCOMMENT LATER AND DEBUG
-//    [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+}
+
+
+//- (IBAction)didTapRetweet:(id)sender {
+//    if (self.tweet.retweeted)
+//    {
+//        // TODO: Update the local tweet model
+//        self.tweet.retweetCount += 1;
+//        self.tweet.retweeted = YES;
+//
+//        // TODO: Update cell UI
+//
+//
+//        //int *temp = self.retweetCount.text.intValue+1;
+//        NSString *retweettIntToText = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
+//        self.retweetCount.text = retweettIntToText;
+//
+//
+//
+//        //TODO: Send a POST request to the POST favorites/create endpoint
+//
+//        //UNCOMMENT LATER AND DEBUG
+//        [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
 //        if(error){
-//            NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+//            NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
 //        }
 //        else{
-//            NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+//            NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
 //        }
 //    }];
+//
+//}
+
+- (IBAction)didTapFavorite:(id)sender {
+    
+if (self.favoritedButton.selected)
+    {
+    // TODO: Update the local tweet model
+    self.tweet.favoriteCount -= 1;
+    self.tweet.favorited = NO;
+    self.favoritedButton.selected = NO;
+    
+    // TODO: Update cell UI
+    NSString *favoritetIntToText = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
+    self.favoriteCount.text = favoritetIntToText;
+    
+    //int *temp = self.retweetCount.text.intValue+1;
+    
+    //TODO: Send a POST request to the POST favorites/create endpoint
+    
+    //UNCOMMENT LATER AND DEBUG
+    [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
+        if(error){
+            NSLog(@"Error unfavoriting tweet: %@", error.localizedDescription);
+        }
+        else{
+            NSLog(@"Successfully unfavoriting the following Tweet: %@", tweet.text);
+        }
+    }];
+    }
+else
+    {
+        // TODO: Update the local tweet model
+        self.tweet.favoriteCount += 1;
+        self.tweet.favorited = YES;
+        self.favoritedButton.selected = YES;
+        
+        // TODO: Update cell UI
+        NSString *favoritetIntToText = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
+        self.favoriteCount.text = favoritetIntToText;
+        
+        //int *temp = self.retweetCount.text.intValue+1;
+        
+        //TODO: Send a POST request to the POST favorites/create endpoint
+        
+        //UNCOMMENT LATER AND DEBUG
+        [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
+            if(error){
+                NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+            }
+            else{
+                NSLog(@"Successfully favoriting the following Tweet: %@", tweet.text);
+            }
+        }];
+    }
     
 }
 
-- (IBAction)didTapFavorite:(id)sender {
-    // TODO: Update the local tweet model
-    // TODO: Update cell UI
-    // TODO: Send a POST request to the POST favorites/create endpoint
-}
 
 - (void) setTweet:(Tweet *)tweet
 {
-    self.userName.text=tweet.user.name;
-    self.screenName.text = tweet.user.screenName;
-    self.tweetText.text = tweet.text;
-    NSString *retweetIntToText = [NSString stringWithFormat:@"%d", tweet.retweetCount];
+    _tweet = tweet;
+    self.userName.text= self.tweet.user.name;
+    self.screenName.text = self.tweet.user.screenName;
+    self.tweetText.text = self.tweet.text;
+    NSString *retweetIntToText = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
     NSLog(@"%@", retweetIntToText);
     self.retweetCount.text = retweetIntToText;
-    NSString *favoriteIntToText = [NSString stringWithFormat:@"%d", tweet.favoriteCount];
+    NSString *favoriteIntToText = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
     self.favoriteCount.text = favoriteIntToText;
-    [self.profilePic setImageWithURL:tweet.user.userImageURL];
+    [self.profilePic setImageWithURL:self.tweet.user.userImageURL];
     
 }
 

@@ -10,13 +10,17 @@
 #import "APIManager.h"
 #import "Tweet.h"
 #import "TweetCell.h"
+#import "ComposeViewController.h"
+#import "AppDelegate.h"
+#import "LoginViewController.h"
 
+@interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
-@interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate>
-
-@property (strong, nonatomic) NSArray *tweets;
+@property (strong, nonatomic) NSMutableArray *tweets;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+
 
 @end
 
@@ -29,27 +33,34 @@
     self.tableView.delegate=self;
     [self.activityIndicator startAnimating];
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
 
     
     // Get timeline
     [self loadData];
+    
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+
 }
 
 - (void) loadData {
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
-            for (Tweet *tweet in tweets) {
+           /* for (Tweet *tweet in tweets) {
                 NSString *text = tweet.text;
                 NSLog(@"%@", text);
             }
-            
+            */
             self.tweets = tweets;
             [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
+            [self.activityIndicator stopAnimating];
+            
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
+            
         }
     }];
 }
@@ -63,14 +74,8 @@
   // ... Use the new data to update the data source ...
     [self loadData];
                                                 
-                                                
- // Reload the tableView now that there is new data
-                                                [self.tableView reloadData];
-                                                
-// Tell the refreshControl to stop spinning
-                                                [refreshControl endRefreshing];
-                                                
-    
+
+
     
 }
 
@@ -98,18 +103,34 @@
     return self.tweets.count;
 }
 
+- (void)didTweet:(Tweet *)tweet{
+    [self.tweets addObject:tweet];
+    [self.tableView reloadData];
+}
 
 
+- (IBAction)didTapLogout:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    appDelegate.window.rootViewController = loginViewController;
+    [[APIManager shared] logout];
+}
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
+
+// #pragma mark - Navigation
+//
+//  In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
+  //Get the new view controller using [segue destinationViewController].
+  //Pass the selected object to the new view controller.
+     UINavigationController *navigationController = [segue destinationViewController];
+     ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+     composeController.delegate = self;
+     
  }
- */
+
 
 
 @end
