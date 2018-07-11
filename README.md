@@ -11,8 +11,8 @@ The following **required** functionality is completed:
 - [X] User sees app icon in home screen and styled launch screen
 - [X] User can sign in using OAuth login flow
 - [X] User can Logout
-- [ ] User can view last 20 tweets from their home timeline
-- [ ] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
+- [X] User can view last 20 tweets from their home timeline
+- [X] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
 - [X] User can pull to refresh.
 - [X] User can tap the retweet and favorite buttons in a tweet cell to retweet and/or favorite a tweet.
 - [X] User can compose a new tweet by tapping on a compose button.
@@ -27,7 +27,7 @@ The following **optional** features are implemented:
    - Contains a section with the users basic stats: # tweets, # following, # followers
    - [ ] Profile view should include that user's timeline
 - [ ] User should display the relative timestamp for each tweet "8m", "7h"
-- [ ] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count. Refer to [[this guide|unretweeting]] for help on implementing unretweeting.
+- [X] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count. Refer to [[this guide|unretweeting]] for help on implementing unretweeting.
 - [ ] Links in tweets are clickable.
 - [ ] User can tap the profile image in any tweet to see another user's profile
    - Contains the user header view: picture and tagline
@@ -44,8 +44,6 @@ The following **optional** features are implemented:
 The following **additional** features are implemented:
 
 - [ ] List anything else that you can get done to improve the app functionality!
--User can view last 19 tweets from their home timeline
--In the home timeline, user can view tweet with the user profile picture, username, screenname, retweet & favorite count, and tweet text, but not timestamp.
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
@@ -59,6 +57,8 @@ Here's a walkthrough of implemented user stories:
 <img src='https://i.imgur.com/4AfKAAL.gif' title='twitter' width='200' alt='Video Walkthrough' />
 <img src='https://i.imgur.com/Gh5hRxV.gif' title='twitter' width='200' alt='Video Walkthrough' />
 <img src='https://i.imgur.com/osraS0Y.gif' title='twitter' width='200' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/iVaxzia.gif' title='twitter' width='200' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/e448hZd.gif' title='twitter' width='200' alt='Video Walkthrough' />
 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
