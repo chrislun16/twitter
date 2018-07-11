@@ -2,7 +2,7 @@
 
 **Twitter** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
-Time spent: **36.45** hours spent in total
+Time spent: **37.78** hours spent in total
 
 ## User Stories
 
